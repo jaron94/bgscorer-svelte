@@ -19,9 +19,11 @@
   </Block>
 
   <BlockTitle>Navigation</BlockTitle>
-  <List strong inset dividersIos>
-    <ListItem link="/about/" title="About"/>
-    <ListItem link="/form/" title="Form"/>
+  <!-- Create a list containing an each block that generates 7 apinputs -->
+  <List>
+    {#each players as player_num}
+    <Apinput {player_num} />
+    {/each}
   </List>
 
   <BlockTitle>Modals</BlockTitle>
@@ -67,4 +69,7 @@
     ListItem,
     Button
   } from 'framework7-svelte';
+  import Apinput from '../components/apinput.svelte';
+
+  let players = [1, 2, 3, 4, 5, 6, 7];
 </script>
