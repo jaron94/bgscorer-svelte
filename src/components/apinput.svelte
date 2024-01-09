@@ -32,7 +32,11 @@
 <div class="apinput_row">
   <ListInput
     type="text"
-    placeholder={player_num == 1 ? "Who deals first?" : " "}
+    placeholder={player_num == 1
+      ? "Who deals first?"
+      : player_num == 2
+        ? "Who leads first?"
+        : " "}
     clearButton
     inputId={`P${player_num}`}
     style="display:flex; opacity:{is_last_pinput ? 0.4 : 1};"
