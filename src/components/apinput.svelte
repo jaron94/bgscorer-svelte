@@ -23,12 +23,10 @@
   });
 
   export let player_num;
-  export let n_players;
+  export let last_pinput;
   export let addPlayer;
   export let removePlayer;
-  $: pinput_display = player_num <= n_players + 1 ? "flex" : "none";
-  $: ainput_display = player_num <= n_players ? "flex" : "none";
-  $: pinput_opacity = player_num == n_players + 1 ? 0.4 : 1;
+  $: is_last_pinput = player_num == last_pinput;
 </script>
 
 <div class="apinput_row">
@@ -37,15 +35,15 @@
     placeholder={player_num == 1 ? "Who deals first?" : " "}
     clearButton
     inputId={`P${player_num}`}
-    style="display:{pinput_display}; opacity:{pinput_opacity};"
+    style="display:flex; opacity:{is_last_pinput ? 0.4 : 1};"
     on:change={() => {
-      if (player_num == n_players + 1) {
+      if (is_last_pinput) {
         addPlayer();
       }
     }}
     on:inputClear={() => {
       if (player_num > min_players) {
-        removePlayer();
+        removePlayer(player_num);
       }
     }}
   />
@@ -53,7 +51,7 @@
     smartSelect
     bind:this={component}
     smartSelectParams={{ openIn: "popover", closeOnSelect: true }}
-    style="display:{ainput_display};"
+    style="display:{is_last_pinput ? 'none' : 'flex'};"
   >
     <select>
       <option
