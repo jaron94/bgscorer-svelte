@@ -3,6 +3,7 @@
   import { onMount, onDestroy, tick } from "svelte";
 
   let component;
+  let min_players = 2;
   let src = "../assets/icons/adventurer-1685973664220.svg";
   let ssinstance;
   onMount(async () => {
@@ -10,7 +11,6 @@
     ssinstance = component.smartSelectInstance();
     if (ssinstance) {
       ssinstance.on("change", () => {
-        console.log("smart select changed");
         src = ssinstance.getValue();
       });
     }
@@ -23,6 +23,12 @@
   });
 
   export let player_num;
+  export let n_players;
+  export let addPlayer;
+  export let removePlayer;
+  $: pinput_display = player_num <= n_players + 1 ? "flex" : "none";
+  $: ainput_display = player_num <= n_players ? "flex" : "none";
+  $: pinput_opacity = player_num == n_players + 1 ? 0.4 : 1;
 </script>
 
 <div class="apinput_row">
@@ -31,13 +37,23 @@
     placeholder={player_num == 1 ? "Who deals first?" : " "}
     clearButton
     inputId={`P${player_num}`}
-    class={player_num == 3 ? "last_pname" : ""}
-    style={`display:${player_num <= 3 ? "flex" : "none"};`}
+    style="display:{pinput_display}; opacity:{pinput_opacity};"
+    on:change={() => {
+      if (player_num == n_players + 1) {
+        addPlayer();
+      }
+    }}
+    on:inputClear={() => {
+      if (player_num > min_players) {
+        removePlayer();
+      }
+    }}
   />
   <ListItem
     smartSelect
     bind:this={component}
     smartSelectParams={{ openIn: "popover", closeOnSelect: true }}
+    style="display:{ainput_display};"
   >
     <select>
       <option
@@ -57,12 +73,3 @@
     <img {src} alt="avatar" class="avatar" />
   </ListItem>
 </div>
-
-<style>
-  .apinput_row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-</style>
