@@ -1,5 +1,26 @@
 <script>
   import { ListInput, ListItem } from "framework7-svelte";
+  import { onMount, onDestroy, tick } from "svelte";
+
+  let component;
+  let src = "../assets/icons/adventurer-1685973664220.svg";
+  let ssinstance;
+  onMount(async () => {
+    await tick();
+    ssinstance = component.smartSelectInstance();
+    if (ssinstance) {
+      ssinstance.on("change", () => {
+        console.log("smart select changed");
+        src = ssinstance.getValue();
+      });
+    }
+  });
+
+  onDestroy(() => {
+    if (ssinstance) {
+      ssinstance.off("change");
+    }
+  });
 
   export let player_num;
 </script>
@@ -13,7 +34,11 @@
     class={player_num == 3 ? "last_pname" : ""}
     style={`display:${player_num <= 3 ? "flex" : "none"};`}
   />
-  <ListItem smartSelect>
+  <ListItem
+    smartSelect
+    bind:this={component}
+    smartSelectParams={{ openIn: "popover", closeOnSelect: true }}
+  >
     <select>
       <option
         value="../assets/icons/adventurer-1685973664220.svg"
@@ -29,6 +54,7 @@
       >
       </option>
     </select>
+    <img {src} alt="avatar" class="avatar" />
   </ListItem>
 </div>
 
