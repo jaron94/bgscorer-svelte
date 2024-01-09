@@ -2,9 +2,10 @@
   import { ListInput, ListItem } from "framework7-svelte";
   import { onMount, onDestroy, tick } from "svelte";
 
+  const avatar_svgs = Object.keys(import.meta.glob("../assets/icons/*.svg"));
+
   let component;
   let min_players = 2;
-  let src = "../assets/icons/adventurer-1685973664220.svg";
   let ssinstance;
   onMount(async () => {
     await tick();
@@ -27,6 +28,8 @@
   export let addPlayer;
   export let removePlayer;
   $: is_last_pinput = player_num == last_pinput;
+
+  let src = avatar_svgs[player_num - 1];
 </script>
 
 <div class="apinput_row">
@@ -58,19 +61,14 @@
     style="display:{is_last_pinput ? 'none' : 'flex'};"
   >
     <select>
-      <option
-        value="../assets/icons/adventurer-1685973664220.svg"
-        selected
-        data-option-image="../assets/icons/adventurer-1685973664220.svg"
-        data-option-class="avatar-option"
-      >
-      </option>
-      <option
-        value="../assets/icons/adventurer-1685973671936.svg"
-        data-option-image="../assets/icons/adventurer-1685973671936.svg"
-        data-option-class="avatar-option"
-      >
-      </option>
+      {#each avatar_svgs as avatar_svg, i}
+        <option
+          value={avatar_svg}
+          data-option-image={avatar_svg}
+          data-option-class="avatar-option"
+          selected={i === player_num - 1}
+        ></option>
+      {/each}
     </select>
     <img {src} alt="avatar" class="avatar" />
   </ListItem>
