@@ -1,1 +1,27 @@
-/* Your app custom styles here */
+.apinput_row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.smart-select-popover {
+  width: auto;
+}
+
+.avatar-option .item-media img,
+.avatar {
+  height: calc(var(--f7-input-height) + var(--f7-list-item-padding-vertical));
+  padding-bottom: var(--f7-list-item-padding-vertical);
+}
+
+.avatar-option {
+  .item-inner {
+    display: none;
+  }
+
+  .item-radio.item-content {
+    justify-content: space-evenly;
+    padding-right: calc(var(--f7-list-item-padding-horizontal) + var(--f7-safe-area-right));
+  }
+}
