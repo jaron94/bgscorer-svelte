@@ -15,6 +15,7 @@
     Button,
   } from "framework7-svelte";
   import Apinput_div from "../components/apinput_div.svelte";
+  import LoadGame from "../components/load_game.svelte";
 </script>
 
 <Page name="home">
@@ -26,5 +27,9 @@
   </Navbar>
 
   <!-- Page content -->
-  <Apinput_div />
+  <div id="setup_div">
+    <Apinput_div />
+    <Button fill id="set_up">New Game</Button>
+    <LoadGame />
+  </div>
 </Page>
