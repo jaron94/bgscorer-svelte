@@ -2,7 +2,6 @@
 import SetupPage from '../pages/setup.svelte';
 import AboutPage from '../pages/about.svelte';
 import FormPage from '../pages/form.svelte';
-import CatalogPage from '../pages/catalog.svelte';
 import ProductPage from '../pages/product.svelte';
 import SettingsPage from '../pages/settings.svelte';
 
@@ -22,10 +21,6 @@ var routes = [
   {
     path: '/form/',
     component: FormPage,
-  },
-  {
-    path: '/catalog/',
-    component: CatalogPage,
   },
   {
     path: '/product/:id/',
