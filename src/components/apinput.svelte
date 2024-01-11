@@ -2,8 +2,6 @@
   import { ListInput, ListItem } from "framework7-svelte";
   import { onMount, onDestroy, tick } from "svelte";
 
-  const avatar_svgs = Object.keys(import.meta.glob("../assets/icons/*.svg"));
-
   let component;
   let min_players = 2;
   let ssinstance;
@@ -12,7 +10,7 @@
     ssinstance = component.smartSelectInstance();
     if (ssinstance) {
       ssinstance.on("change", () => {
-        src = ssinstance.getValue();
+        player.avatar = ssinstance.getValue();
       });
     }
   });
@@ -23,34 +21,38 @@
     }
   });
 
-  export let player_num;
+  export let player;
   export let last_pinput;
   export let addPlayer;
   export let removePlayer;
-  $: is_last_pinput = player_num == last_pinput;
+  export let avatar_svgs;
+  $: is_last_pinput = player.id == last_pinput.id;
 
-  let src = avatar_svgs[player_num - 1];
+  player.avatar = avatar_svgs[player.id - 1];
+
+  // export let src = avatar_svgs[player.id - 1];
 </script>
 
 <div class="apinput_row">
   <ListInput
     type="text"
-    placeholder={player_num == 1
+    placeholder={player.id == 1
       ? "Who deals first?"
-      : player_num == 2
+      : player.id == 2
         ? "Who leads first?"
         : " "}
     clearButton
-    inputId={`P${player_num}`}
+    inputId={`P${player.id}`}
     style="display:flex; opacity:{is_last_pinput ? 0.4 : 1};"
+    bind:value={player.name}
     on:change={() => {
       if (is_last_pinput) {
         addPlayer();
       }
     }}
     on:inputClear={() => {
-      if (player_num > min_players) {
-        removePlayer(player_num);
+      if (player.id > min_players) {
+        removePlayer(player.id);
       }
     }}
   />
@@ -66,10 +68,10 @@
           value={avatar_svg}
           data-option-image={avatar_svg}
           data-option-class="avatar-option"
-          selected={i === player_num - 1}
+          selected={i === player.id - 1}
         ></option>
       {/each}
     </select>
-    <img {src} alt="avatar" class="avatar" />
+    <img src={player.avatar} alt="avatar" class="avatar" />
   </ListItem>
 </div>

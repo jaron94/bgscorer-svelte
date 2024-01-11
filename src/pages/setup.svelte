@@ -4,10 +4,9 @@
     Navbar,
     NavRight,
     Link,
-    Button,
   } from "framework7-svelte";
   import Apinput_div from "../components/apinput_div.svelte";
-  import LoadGame from "../components/load_game.svelte";
+  import {game} from "../js/store.js";
 </script>
 
 <Page name="home">
@@ -19,9 +18,10 @@
   </Navbar>
 
   <!-- Page content -->
+  <h3>Game ID: {$game.id}</h3>
+  <h3>Players: {$game.playerNames}</h3>
+
   <div id="setup_div">
     <Apinput_div />
-    <Button fill id="set_up">New Game</Button>
-    <LoadGame />
   </div>
 </Page>
