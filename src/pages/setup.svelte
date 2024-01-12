@@ -4,6 +4,7 @@
     Navbar,
     NavRight,
     Link,
+    Block,
   } from "framework7-svelte";
   import Apinput_div from "../components/apinput_div.svelte";
   import {game} from "../js/store.js";
@@ -21,7 +22,7 @@
   <h3>Game ID: {$game.id}</h3>
   <h3>Players: {$game.playerNames}</h3>
 
-  <div id="setup_div">
+  <Block>
     <Apinput_div />
-  </div>
+  </Block>
 </Page>
