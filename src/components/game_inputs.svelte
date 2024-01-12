@@ -5,24 +5,55 @@
   let record_div_margin_vert = "20px";
   let input_vals = Array($game.players.length).fill(0);
   let num_cards = $game.getNumCards();
+  let loading = false;
+  let notification;
 
   let x = $game.getPlayerData().bids;
 
+  function error_alert(msg) {
+    f7.dialog.alert(msg, () => {
+      loading = false;
+    });
+  }
+
+  function showSuccessNotification(bidStage) {
+    if (!notification) {
+      notification = f7.notification.create({
+        icon: '<i class="icon icon-f7"></i>',
+        title: `${bidStage ? "Bids" : "Tricks"} recorded successfully!`,
+        closeOnClick: true,
+        closeTimeout: 2000,
+      });
+    }
+    notification.open();
+  }
+
+//   let bid_success = genSuccessNotification(true);
+//   let trick_success = genSuccessNotification(false);
+
   function handleClick() {
+    loading = true;
     if ($game.bidStage) {
       try {
         $game = $game.recordBids(input_vals);
+        showSuccessNotification(true);
       } catch (e) {
-        f7.dialog.alert(e.message);
+        error_alert(e.message);
       }
     } else {
       try {
         $game = $game.recordTricks(input_vals);
         input_vals = Array($game.players.length).fill(0);
+        showSuccessNotification(false);
       } catch (e) {
-        f7.dialog.alert(e.message);
+        error_alert(e.message);
       }
     }
+    setTimeout(() => {
+      if (loading) {
+        loading = false;
+      }
+    }, 1000);
   }
 </script>
 
@@ -52,7 +83,7 @@
     {/each}
   </div>
   <div id="record_div">
-    <Button fill id="record" on:click={handleClick}
+    <Button fill id="record" on:click={handleClick} preloader {loading}
       >{$game.bidStage ? "Enter Bids" : "Enter Results"}</Button
     >
   </div>
