@@ -28,7 +28,7 @@
     <Toolbar tabbar icons bottom>
       <Link tabLink="#view-home" tabLinkActive iconIos="f7:house_fill" iconMd="material:home" text="Home" />
       <Link tabLink="#view-play" iconIos="f7:play_fill" iconMd="material:play_arrow" text="Play" />
-      <Link tabLink="#view-settings" iconIos="f7:gear" iconMd="material:settings" text="Settings" />
+      <Link tabLink="#view-score" iconIos="f7:table_fill" iconMd="material:table_chart" text="Scores" />
     </Toolbar>
 
     <!-- Your main view/tab, should have "view-main" class. It also has "tabActive" prop -->
@@ -38,7 +38,7 @@
     <View id="view-play" name="play" tab url="/play/" />
 
     <!-- Settings View -->
-    <View id="view-settings" name="settings" tab url="/settings/" />
+    <View id="view-score" name="score" tab url="/score/" />
 
   </Views>
 

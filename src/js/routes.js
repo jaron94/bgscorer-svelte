@@ -1,6 +1,7 @@
 
 import SetupPage from '../pages/setup.svelte';
 import PlayPage from '../pages/play.svelte';
+import ScorePage from '../pages/score.svelte';
 import AboutPage from '../pages/about.svelte';
 import FormPage from '../pages/form.svelte';
 import ProductPage from '../pages/product.svelte';
@@ -18,6 +19,10 @@ var routes = [
   {
     path: '/play/',
     component: PlayPage,
+  },
+  {
+    path: '/score/',
+    component: ScorePage,
   },
   {
     path: '/about/',
