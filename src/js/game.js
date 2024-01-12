@@ -21,12 +21,12 @@ export class BettingGame {
     if (this.players.length > 0) {
       throw new Error("Players have already been added.");
     }
-    players.forEach(player => this.addPlayer(player));
+    players.forEach((player) => this.addPlayer(player));
     this.nextRound();
   }
 
   getNumCards() {
-    cardSeq(this.round);
+    return cardSeq(this.round);
   }
 
   nextRound() {
@@ -47,7 +47,7 @@ export class BettingGame {
     }
 
     if (sumArray(bids) == this.getNumCards()) {
-      throw new Error("You are currently exactly bid.")
+      throw new Error("You are currently exactly bid.");
     }
 
     this.players.forEach((player, i) => {
@@ -55,6 +55,7 @@ export class BettingGame {
     });
 
     this.advance();
+    return this;
   }
 
   recordTricks(tricks) {
@@ -63,7 +64,9 @@ export class BettingGame {
     }
 
     if (sumArray(tricks) != this.getNumCards()) {
-      throw new Error("# of tricks declared doesn't equal the total for this round.")
+      throw new Error(
+        "# of tricks declared doesn't equal the total for this round."
+      );
     }
 
     this.players.forEach((player, i) => {
@@ -71,6 +74,15 @@ export class BettingGame {
     });
 
     this.advance();
+    return this;
+  }
+
+  getPlayerData() {
+    let names = this.players.map(p => p.name);
+    let bids = this.players.map(p => p.bids);
+    let tricks = this.players.map(p => p.ntricks);
+  
+    return { names, bids, tricks };
   }
 
   getTrumpSuit() {
@@ -84,12 +96,12 @@ function shiftArray(arr, n = 1) {
 }
 
 function cardSeq(round, maxCards = 7) {
-  const sequence = [...Array(maxCards).keys()].map(i => maxCards - i)
-    .concat([...Array(maxCards - 1).keys()].map(i => i + 2));
+  const sequence = [...Array(maxCards).keys()]
+    .map((i) => maxCards - i)
+    .concat([...Array(maxCards - 1).keys()].map((i) => i + 2));
   return sequence[round - 1];
 }
 
 function sumArray(arr) {
   return arr.reduce((a, b) => a + b, 0);
 }
-

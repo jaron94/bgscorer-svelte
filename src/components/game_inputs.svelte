@@ -1,8 +1,29 @@
 <script>
-  import { Stepper, Button } from "framework7-svelte";
+  import { Stepper, Button, f7 } from "framework7-svelte";
   import { game } from "../js/store.js";
 
   let record_div_margin_vert = "20px";
+  let input_vals = Array($game.players.length).fill(0);
+  let num_cards = $game.getNumCards();
+
+  let x = $game.getPlayerData().bids;
+
+  function handleClick() {
+    if ($game.bidStage) {
+      try {
+        $game = $game.recordBids(input_vals);
+      } catch (e) {
+        f7.dialog.alert(e.message);
+      }
+    } else {
+      try {
+        $game = $game.recordTricks(input_vals);
+        input_vals = Array($game.players.length).fill(0);
+      } catch (e) {
+        f7.dialog.alert(e.message);
+      }
+    }
+  }
 </script>
 
 <div
@@ -11,7 +32,7 @@
   style="--record_div-margin-vertical: {record_div_margin_vert}"
 >
   <div class="grid grid-cols-1 medium-grid-cols-2">
-    {#each $game.players as player}
+    {#each $game.players as player, i}
       <div class="ginput_div">
         <img
           src="../assets/icons/adventurer-1685973664220.svg"
@@ -22,16 +43,16 @@
         <Stepper
           name={player.name}
           fill
-          value="0"
           min="0"
           wraps
-          max={$game.getNumCards()}
+          max={num_cards}
+          bind:value={input_vals[i]}
         ></Stepper>
       </div>
     {/each}
   </div>
   <div id="record_div">
-    <Button fill id="record"
+    <Button fill id="record" on:click={handleClick}
       >{$game.bidStage ? "Enter Bids" : "Enter Results"}</Button
     >
   </div>
