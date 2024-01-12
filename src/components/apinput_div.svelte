@@ -38,10 +38,6 @@
   }
 </script>
 
-<!-- <h3>{#each avatars as avatar}
-<img src={avatar} alt="avatar" class="avatar" />
-{/each}
-</h3> -->
 <List>
   {#each disp_players as player (player.id)}
     <Apinput {player} {last_pinput} {addPlayer} {removePlayer} {avatar_svgs} />
