@@ -3,12 +3,13 @@
   import { game } from "../js/store.js";
 
   let record_div_margin_vert = "20px";
-  let input_vals = Array($game.players.length).fill(0);
-  let num_cards = $game.getNumCards();
+  $game.players.forEach((p) => {
+    p.input_val = 0;
+  });
+  $: nms = $game.playerNames;
+  $: num_cards = $game.getNumCards();
   let loading = false;
   let notification;
-
-  let x = $game.getPlayerData().bids;
 
   function error_alert(msg) {
     f7.dialog.alert(msg, () => {
@@ -28,22 +29,24 @@
     notification.open();
   }
 
-//   let bid_success = genSuccessNotification(true);
-//   let trick_success = genSuccessNotification(false);
+  //   let bid_success = genSuccessNotification(true);
+  //   let trick_success = genSuccessNotification(false);
 
   function handleClick() {
     loading = true;
     if ($game.bidStage) {
       try {
-        $game = $game.recordBids(input_vals);
+        $game = $game.recordBids();
         showSuccessNotification(true);
       } catch (e) {
         error_alert(e.message);
       }
     } else {
       try {
-        $game = $game.recordTricks(input_vals);
-        input_vals = Array($game.players.length).fill(0);
+        $game = $game.recordTricks();
+        $game.players.forEach((p) => {
+          p.input_val = 0;
+        });
         showSuccessNotification(false);
       } catch (e) {
         error_alert(e.message);
@@ -63,7 +66,7 @@
   style="--record_div-margin-vertical: {record_div_margin_vert}"
 >
   <div class="grid grid-cols-1 medium-grid-cols-2">
-    {#each $game.players as player, i}
+    {#each $game.getPlayerOrder() as player}
       <div class="ginput_div">
         <img
           src="../assets/icons/adventurer-1685973664220.svg"
@@ -77,7 +80,7 @@
           min="0"
           wraps
           max={num_cards}
-          bind:value={input_vals[i]}
+          bind:value={player.input_val}
         ></Stepper>
       </div>
     {/each}

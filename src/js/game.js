@@ -41,10 +41,12 @@ export class BettingGame {
     this.bidStage = !this.bidStage;
   }
 
-  recordBids(bids) {
+  recordBids() {
     if (!this.bidStage) {
       throw new Error("Invalid stage. Bidding stage has ended.");
     }
+
+    let bids = this.players.map((player) => player.input_val);
 
     if (sumArray(bids) == this.getNumCards()) {
       throw new Error("You are currently exactly bid.");
@@ -58,10 +60,12 @@ export class BettingGame {
     return this;
   }
 
-  recordTricks(tricks) {
+  recordTricks() {
     if (this.bidStage) {
       throw new Error("Invalid stage. Scoring stage has not started.");
     }
+
+    let tricks = this.players.map((player) => player.input_val);
 
     if (sumArray(tricks) != this.getNumCards()) {
       throw new Error(
@@ -78,11 +82,17 @@ export class BettingGame {
   }
 
   getPlayerData() {
-    let names = this.players.map(p => p.name);
-    let bids = this.players.map(p => p.bids);
-    let tricks = this.players.map(p => p.ntricks);
-  
+    let names = this.players.map((p) => p.name);
+    let bids = this.players.map((p) => p.bids);
+    let tricks = this.players.map((p) => p.ntricks);
+
     return { names, bids, tricks };
+  }
+
+  getPlayerOrder() {
+    return this.players.toSorted(
+      (a, b) => this.order.indexOf(a.name) - this.order.indexOf(b.name)
+    );
   }
 
   getTrumpSuit() {
@@ -91,8 +101,9 @@ export class BettingGame {
 }
 
 function shiftArray(arr, n = 1) {
-  const removedElements = arr.splice(0, n);
-  return [...arr, ...removedElements];
+  const arrCopy = [...arr];
+  const removedElements = arrCopy.splice(0, n);
+  return [...arrCopy, ...removedElements];
 }
 
 function cardSeq(round, maxCards = 7) {
