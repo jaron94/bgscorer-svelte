@@ -1,34 +1,111 @@
-<App { ...f7params }>
+<script>
+  import { onMount } from "svelte";
 
+  import {
+    f7,
+    f7ready,
+    App,
+    Panel,
+    Views,
+    View,
+    Popup,
+    Page,
+    Navbar,
+    Toolbar,
+    NavRight,
+    Link,
+    Block,
+    BlockTitle,
+    LoginScreen,
+    LoginScreenTitle,
+    List,
+    ListItem,
+    ListInput,
+    ListButton,
+    BlockFooter,
+  } from "framework7-svelte";
+
+  import routes from "../js/routes";
+
+  // Framework7 Parameters
+  let f7params = {
+    name: "bgScorer", // App name
+    theme: "auto", // Automatic theme detection
+
+    // App routes
+    routes: routes,
+
+    // Register service worker (only on production build)
+    serviceWorker:
+      process.env.NODE_ENV === "production"
+        ? {
+            path: "/service-worker.js",
+          }
+        : {},
+  };
+  // Login screen demo data
+  let username = "";
+  let password = "";
+
+  function alertLoginData() {
+    f7.dialog.alert(
+      "Username: " + username + "<br>Password: " + password,
+      () => {
+        f7.loginScreen.close();
+      },
+    );
+  }
+  onMount(() => {
+    f7ready(() => {
+      // Call F7 APIs here
+    });
+  });
+</script>
+
+<App {...f7params}>
   <!-- Left panel with cover effect-->
   <Panel left cover dark>
     <View>
       <Page>
-        <Navbar title="Left Panel"/>
+        <Navbar title="Left Panel" />
         <Block>Left panel content goes here</Block>
       </Page>
     </View>
   </Panel>
 
-
   <!-- Right panel with reveal effect-->
   <Panel right reveal dark>
     <View>
       <Page>
-        <Navbar title="Right Panel"/>
+        <Navbar title="Right Panel" />
         <Block>Right panel content goes here</Block>
       </Page>
     </View>
   </Panel>
 
-
   <!-- Views/Tabs container -->
   <Views tabs class="safe-areas">
     <!-- Tabbar for switching views-tabs -->
     <Toolbar tabbar icons bottom>
-      <Link tabLink="#view-home" tabLinkActive iconIos="f7:house_fill" iconMd="material:home" text="Home" />
-      <Link tabLink="#view-play" iconIos="f7:play_fill" iconMd="material:play_arrow" text="Play" />
-      <Link tabLink="#view-score" iconIos="f7:table_fill" iconMd="material:table_chart" text="Scores" />
+      <Link
+        tabLink="#view-home"
+        tabLinkActive
+        iconIos="f7:house_fill"
+        iconMd="material:home"
+        text="Home"
+      />
+      <Link
+        tabLink="#view-play"
+        iconIos="f7:play_fill"
+        iconMd="material:play_arrow"
+        text="Play"
+      />
+      <Link
+        tabLink="#view-score"
+        iconIos="f7:table_fill"
+        iconMd="material:table_chart"
+        text="Scores"
+      />
     </Toolbar>
 
     <!-- Your main view/tab, should have "view-main" class. It also has "tabActive" prop -->
@@ -39,9 +116,7 @@
 
     <!-- Settings View -->
     <View id="view-score" name="score" tab url="/score/" />
-
   </Views>
-
 
   <!-- Popup -->
   <Popup id="my-popup">
@@ -81,73 +156,10 @@
           <ListButton title="Sign In" onClick={() => alertLoginData()} />
         </List>
         <BlockFooter>
-          Some text about login information.<br />Click "Sign In" to close Login Screen
+          Some text about login information.<br />Click "Sign In" to close Login
+          Screen
         </BlockFooter>
       </Page>
     </View>
   </LoginScreen>
 </App>
-<script>
-  import { onMount } from 'svelte';
-
-  import {
-    f7,
-    f7ready,
-    App,
-    Panel,
-    Views,
-    View,
-    Popup,
-    Page,
-    Navbar,
-    Toolbar,
-    NavRight,
-    Link,
-    Block,
-    BlockTitle,
-    LoginScreen,
-    LoginScreenTitle,
-    List,
-    ListItem,
-    ListInput,
-    ListButton,
-    BlockFooter
-  } from 'framework7-svelte';
-
-
-  import routes from '../js/routes';
-
-
-  // Framework7 Parameters
-  let f7params = {
-    name: 'bgScorer', // App name
-    theme: 'auto', // Automatic theme detection
-
-
-
-
-    // App routes
-    routes: routes,
-
-    // Register service worker (only on production build)
-    serviceWorker: process.env.NODE_ENV ==='production' ? {
-      path: '/service-worker.js',
-    } : {},
-  };
-  // Login screen demo data
-  let username = '';
-  let password = '';
-
-  function alertLoginData() {
-    f7.dialog.alert('Username: ' + username + '<br>Password: ' + password, () => {
-      f7.loginScreen.close();
-    });
-  }
-  onMount(() => {
-    f7ready(() => {
-
-
-      // Call F7 APIs here
-    });
-  })
-</script>
