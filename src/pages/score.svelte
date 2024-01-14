@@ -1,6 +1,6 @@
 <script>
   import { Page, Navbar, NavRight, Link } from "framework7-svelte";
-  import GameTable from "../components/game_table.svelte";
+  import GameTable from "../components/score_table.svelte";
 </script>
 
 <Page name="score">
