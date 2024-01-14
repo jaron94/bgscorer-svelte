@@ -3,9 +3,20 @@
   import { game } from "../js/store.js";
 
   $: players = $game.players;
-  $: rows = Array($game.round)
+  $: rounds = Array($game.round)
     .fill(0)
     .map((_, i) => i + 1);
+
+  function replaceUndefined(val) {
+    return val === undefined ? "" : val;
+  }
+
+  function getBgColor(bid, ntricks) {
+    if (ntricks === undefined) {
+      return "";
+    }
+    return bid === ntricks ? "#00FF00" : "#FF0000";
+  }
 </script>
 
 <Block>
@@ -13,30 +24,32 @@
     <table id="score_table">
       <thead>
         <tr>
+          <th rowspan="2">Round</th>
           {#each players as player (player.name)}
-            <th colspan="2" style="text-align:center;">{player.name}</th>
+            <th colspan="3" class="xsmall-only">{player.name}</th>
+            <th rowspan="2" class="not-xsmall">{player.name}</th>
           {/each}
         </tr>
         <tr>
           {#each players as player (player.name)}
-            <th class="numeric-cell">Bids</th>
-            <th class="numeric-cell">Tricks</th>
+            <th class="xsmall-only">B</th>
+            <th class="xsmall-only">T</th>
+            <th class="xsmall-only">S</th>
           {/each}
         </tr>
       </thead>
       <tbody>
-        {#each rows as row}
+        {#each rounds as round, i}
           <tr>
+            <td class="label-cell">{round}</td>
             {#each players as player (player.name)}
-              <td class="numeric-cell"
-                >{player.bids[row - 1] !== undefined
-                  ? player.bids[row - 1]
-                  : ""}</td
-              >
-              <td class="numeric-cell"
-                >{player.ntricks[row - 1] !== undefined
-                  ? player.ntricks[row - 1]
-                  : ""}</td
+              <td class="xsmall-only">{replaceUndefined(player.bids[i])}</td>
+              <td class="xsmall-only">{replaceUndefined(player.ntricks[i])}</td>
+              <td
+                style="background-color: {getBgColor(
+                  player.bids[i],
+                  player.ntricks[i],
+                )}">{replaceUndefined(player.cumulativeScores[i])}</td
               >
             {/each}
           </tr>
@@ -45,3 +58,22 @@
     </table>
   </div>
 </Block>
+
+<style>
+  .data-table {
+    --f7-table-cell-padding-horizontal: 4px;
+    --f7-table-edge-cell-padding-horizontal: 4px;
+  }
+
+  th,
+  td {
+    text-align: center;
+    min-width: 25px;
+  }
+
+  @media screen and (min-width: 480px) {
+    .not-xsmall {
+      display: none;
+    }
+  }
+</style>
