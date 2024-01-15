@@ -6,10 +6,11 @@
   $game.players.forEach((p) => {
     p.input_val = 0;
   });
-  $: nms = $game.playerNames;
-  $: num_cards = $game.getNumCards();
   let loading = false;
-  let notification;
+  let bidNotification;
+  let tricksNotification;
+
+  $: num_cards = $game.getNumCards();
 
   function error_alert(msg) {
     f7.dialog.alert(msg, () => {
@@ -17,7 +18,7 @@
     });
   }
 
-  function showSuccessNotification(bidStage) {
+  function showSuccessNotification(notification, bidStage) {
     if (!notification) {
       notification = f7.notification.create({
         icon: '<i class="icon icon-f7"></i>',
@@ -29,15 +30,12 @@
     notification.open();
   }
 
-  //   let bid_success = genSuccessNotification(true);
-  //   let trick_success = genSuccessNotification(false);
-
   function handleClick() {
     loading = true;
     if ($game.bidStage) {
       try {
         $game = $game.recordBids();
-        showSuccessNotification(true);
+        showSuccessNotification(bidNotification, true);
       } catch (e) {
         error_alert(e.message);
       }
@@ -47,7 +45,7 @@
         $game.players.forEach((p) => {
           p.input_val = 0;
         });
-        showSuccessNotification(false);
+        showSuccessNotification(tricksNotification, false);
       } catch (e) {
         error_alert(e.message);
       }
@@ -65,26 +63,28 @@
   class="text-align-center"
   style="--record_div-margin-vertical: {record_div_margin_vert}"
 >
-  <div class="grid grid-cols-1 medium-grid-cols-2">
-    {#each $game.getPlayerOrder() as player}
-      <div class="ginput_div">
-        <img
-          src="../assets/icons/adventurer-1685973664220.svg"
-          alt="avatar"
-          class="avatar"
-        />
-        <strong class="display-block">{player.name}</strong>
-        <Stepper
-          name={player.name}
-          fill
-          min="0"
-          wraps
-          max={num_cards}
-          bind:value={player.input_val}
-        ></Stepper>
-      </div>
-    {/each}
-  </div>
+  {#key num_cards}
+    <div class="grid grid-cols-1 medium-grid-cols-2">
+      {#each $game.getPlayerOrder() as player}
+        <div class="ginput_div">
+          <img
+            src="../assets/icons/adventurer-1685973664220.svg"
+            alt="avatar"
+            class="avatar"
+          />
+          <strong class="display-block">{player.name}</strong>
+          <Stepper
+            name={player.name}
+            fill
+            min="0"
+            wraps
+            max={num_cards}
+            bind:value={player.input_val}
+          />
+        </div>
+      {/each}
+    </div>
+  {/key}
   <div id="record_div">
     <Button fill id="record" on:click={handleClick} preloader {loading}
       >{$game.bidStage ? "Enter Bids" : "Enter Results"}</Button
