@@ -68,7 +68,7 @@
       {#each $game.getPlayerOrder() as player}
         <div class="ginput_div">
           <img
-            src="../assets/icons/adventurer-1685973664220.svg"
+            src="../assets/adventurer-1685973664220.svg"
             alt="avatar"
             class="avatar"
           />
