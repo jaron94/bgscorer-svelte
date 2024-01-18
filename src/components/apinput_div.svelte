@@ -8,9 +8,10 @@
   import {Player} from "../js/player.js";
   import {BettingGame} from "../js/game.js";
 
-  const avatar_svgs = Object.keys(import.meta.glob("./bgscorer-svelte/assets/*.svg")).map(svg => {
-    return new URL(svg, import.meta.url).href
+  const avatar_svgs = Object.keys(import.meta.glob("/assets/*.svg")).map(svg => {
+    return svg
   });
+  console.log(avatar_svgs)
 
   let disp_players = [new Player(1), new Player(2), new Player(3)];
   let actual_players = disp_players.slice(0, -1);
@@ -41,6 +42,7 @@
 </script>
 
 <List>
+  <div>{avatar_svgs[0]}</div>
   {#each disp_players as player (player.id)}
     <Apinput {player} {last_pinput} {addPlayer} {removePlayer} {avatar_svgs} />
   {/each}
