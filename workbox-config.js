@@ -4,5 +4,5 @@ module.exports = {
   /* pass array of globs to exclude from caching */
   globIgnores: [],
   ignoreURLParametersMatching: [/^utm_/, /^fbclid$/],
-  swDest: 'www/service-worker.js',
+  swDest: 'www/bgscorer-svelte/service-worker.js',
 };
