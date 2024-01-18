@@ -8,7 +8,7 @@
   import {Player} from "../js/player.js";
   import {BettingGame} from "../js/game.js";
 
-  const avatar_svgs = Object.keys(import.meta.glob("/assets/*.svg")).map(svg => {
+  const avatar_svgs = Object.keys(import.meta.glob("/bgscorer-svelte/assets/*.svg")).map(svg => {
     return new URL(svg, import.meta.url).href
   });
 
