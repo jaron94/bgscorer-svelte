@@ -1,11 +1,6 @@
 <script>
-  import {
-    Page,
-    Navbar,
-    NavRight,
-    Link,
-    Block,
-  } from "framework7-svelte";
+  import { Page, Navbar, NavRight, Link, f7 } from "framework7-svelte";
+  import { onDestroy } from "svelte";
   import GameInputs from "../components/game_inputs.svelte";
 
   import { game } from "../js/store.js";
@@ -14,7 +9,7 @@
 
   const player_ids = [1, 2, 3, 4, 5, 6, 7, 8];
 
-  let players = player_ids.map(function(id){
+  let players = player_ids.map(function (id) {
     let p = new Player(id);
     p.name = "Player " + id;
     return p;
