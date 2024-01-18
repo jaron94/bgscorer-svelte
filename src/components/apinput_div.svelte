@@ -8,9 +8,12 @@
   import {Player} from "../js/player.js";
   import {BettingGame} from "../js/game.js";
 
-  const avatar_svgs = Object.keys(import.meta.glob("/assets/*.svg")).map(svg => {
-    return svg
-  });
+  const avatar_svgs = Object.values(import.meta.glob("/assets/*.svg", { eager: true, as: 'url' }))
+
+  // .map(svg => {
+  //   console.log(svg);
+  //   return new URL(`${svg}`, import.meta.url).href
+  // });
   console.log(avatar_svgs)
 
   let disp_players = [new Player(1), new Player(2), new Player(3)];

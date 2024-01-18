@@ -56,6 +56,8 @@
       }
     }, 1000);
   }
+
+  const imgUrl = new URL("/assets/avataaars-1685973652510.svg", import.meta.url).href;
 </script>
 
 <div
@@ -68,7 +70,7 @@
       {#each $game.getPlayerOrder() as player}
         <div class="ginput_div">
           <img
-            src="assets/avataaars-1685973652510.svg"
+            src={imgUrl}
             alt="avatar"
             class="avatar"
           />
