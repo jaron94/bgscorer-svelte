@@ -10,12 +10,6 @@
 
   const avatar_svgs = Object.values(import.meta.glob("/assets/*.svg", { eager: true, as: 'url' }))
 
-  // .map(svg => {
-  //   console.log(svg);
-  //   return new URL(`${svg}`, import.meta.url).href
-  // });
-  console.log(avatar_svgs)
-
   let disp_players = [new Player(1), new Player(2), new Player(3)];
   let actual_players = disp_players.slice(0, -1);
   let max_players = 7;
@@ -45,7 +39,6 @@
 </script>
 
 <List>
-  <div>{avatar_svgs[0]}</div>
   {#each disp_players as player (player.id)}
     <Apinput {player} {last_pinput} {addPlayer} {removePlayer} {avatar_svgs} />
   {/each}
