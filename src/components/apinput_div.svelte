@@ -8,7 +8,7 @@
   import {Player} from "../js/player.js";
   import {BettingGame} from "../js/game.js";
 
-  const avatar_svgs = Object.keys(import.meta.glob("/assets/*.svg"));
+  const avatar_svgs = Object.keys(import.meta.glob("../assets/*.svg"));
 
   let disp_players = [new Player(1), new Player(2), new Player(3)];
   let actual_players = disp_players.slice(0, -1);
