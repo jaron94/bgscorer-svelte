@@ -14,7 +14,7 @@ export default async () => {
 
     ],
     root: SRC_DIR,
-    base: '/bgscorer-svelte/',
+    base: process.env.NODE_ENV === "production" ? "/bgscorer-svelte/" : "/",
     publicDir: PUBLIC_DIR,
     build: {
       outDir: BUILD_DIR,
