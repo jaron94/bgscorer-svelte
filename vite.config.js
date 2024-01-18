@@ -8,7 +8,7 @@ export default async () => {
   return {
     plugins: [svelte()],
     root: SRC_DIR,
-    base: process.env.NODE_ENV === "production" ? "/bgscorer-svelte/" : "/",
+    base: "/bgscorer-svelte/",
     publicDir: PUBLIC_DIR,
     build: {
       outDir: BUILD_DIR,
