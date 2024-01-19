@@ -59,10 +59,14 @@
   <ListItem
     smartSelect
     bind:this={component}
-    smartSelectParams={{ openIn: "popover", closeOnSelect: true, cssClass: "avatar-popover" }}
-    style="display:{is_last_pinput ? 'none' : 'flex'};"
+    smartSelectParams={{
+      openIn: "popover",
+      closeOnSelect: true,
+      cssClass: "avatar-popover",
+    }}
+    style="display:{is_last_pinput ? "none" : "flex"};"
   >
-  <img src={player.avatar} alt="avatar" class="avatar" slot="media" />
+    <img src={player.avatar} alt="avatar" class="avatar" slot="media" />
     <select>
       {#each avatar_svgs as avatar_svg, i}
         <option

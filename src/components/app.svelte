@@ -15,17 +15,27 @@
     NavRight,
     Link,
     Block,
-    BlockTitle,
     LoginScreen,
     LoginScreenTitle,
     List,
-    ListItem,
     ListInput,
     ListButton,
     BlockFooter,
   } from "framework7-svelte";
 
   import routes from "../js/routes";
+
+  let sw;
+
+  // eslint-disable-next-line no-undef
+  if (process.env.NODE_ENV === "production") {
+    sw = {
+      path: "/bgscorer-svelte/service-worker.js",
+      scope: "/bgscorer-svelte/",
+    };
+  } else {
+    sw = {};
+  }
 
   // Framework7 Parameters
   let f7params = {
@@ -36,13 +46,7 @@
     routes: routes,
 
     // Register service worker (only on production build)
-    serviceWorker:
-      process.env.NODE_ENV === "production"
-        ? {
-            path: "/bgscorer-svelte/service-worker.js",
-            scope: "/bgscorer-svelte/"
-          }
-        : {},
+    serviceWorker: sw,
   };
   // Login screen demo data
   let username = "";

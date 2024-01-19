@@ -21,7 +21,7 @@
   function showSuccessNotification(notification, bidStage) {
     if (!notification) {
       notification = f7.notification.create({
-        icon: '<i class="icon icon-f7"></i>',
+        icon: "<i class='icon icon-f7'></i>",
         title: `${bidStage ? "Bids" : "Tricks"} recorded successfully!`,
         closeOnClick: true,
         closeTimeout: 2000,
@@ -57,7 +57,8 @@
     }, 1000);
   }
 
-  const imgUrl = new URL("/assets/avataaars-1685973652510.svg", import.meta.url).href;
+  const imgUrl = new URL("/assets/avataaars-1685973652510.svg", import.meta.url)
+    .href;
 </script>
 
 <div
@@ -69,11 +70,7 @@
     <div class="grid grid-cols-1 medium-grid-cols-2">
       {#each $game.getPlayerOrder() as player}
         <div class="ginput_div">
-          <img
-            src={imgUrl}
-            alt="avatar"
-            class="avatar"
-          />
+          <img src={imgUrl} alt="avatar" class="avatar" />
           <strong class="display-block">{player.name}</strong>
           <Stepper
             name={player.name}

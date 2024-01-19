@@ -4,28 +4,35 @@
   import { List, Button } from "framework7-svelte";
   import Apinput from "./apinput.svelte";
   import LoadGame from "./load_game.svelte";
-  import {game} from "../js/store.js";
-  import {Player} from "../js/player.js";
-  import {BettingGame} from "../js/game.js";
+  import { game } from "../js/store.js";
+  import { Player } from "../js/player.js";
+  import { BettingGame } from "../js/game.js";
 
-  const avatar_svgs = Object.values(import.meta.glob("/assets/*.svg", { eager: true, as: 'url' }))
+  const avatar_svgs = Object.values(
+    import.meta.glob("/assets/*.svg", { eager: true, as: "url" }),
+  );
 
   let disp_players = [new Player(1), new Player(2), new Player(3)];
   let actual_players = disp_players.slice(0, -1);
   let max_players = 7;
 
-  $: last_pinput = disp_players.filter(x => !actual_players.map((p) => p.id).includes(x.id))[0];
+  $: last_pinput = disp_players.filter(
+    (x) => !actual_players.map((p) => p.id).includes(x.id),
+  )[0];
 
   function addPlayer() {
     actual_players = disp_players;
     if (disp_players.length < max_players) {
-      disp_players = [...disp_players, new Player(Math.max(...(disp_players.map(x => x.id))) + 1)];
+      disp_players = [
+        ...disp_players,
+        new Player(Math.max(...disp_players.map((x) => x.id)) + 1),
+      ];
     }
   }
 
   function removePlayer(pnum) {
-    actual_players = actual_players.filter(x => x.id != pnum);
-    disp_players = disp_players.filter(x => x.id != pnum);
+    actual_players = actual_players.filter((x) => x.id != pnum);
+    disp_players = disp_players.filter((x) => x.id != pnum);
     if (actual_players.length == max_players - 1) {
       addPlayer();
     }
@@ -34,7 +41,7 @@
   function setupGame() {
     const new_game = new BettingGame(Date.now());
     new_game.addPlayers(actual_players);
-    game.set(new_game)
+    game.set(new_game);
   }
 </script>
 
