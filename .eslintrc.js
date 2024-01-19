@@ -4,7 +4,7 @@ module.exports = {
     es2021: true,
   },
   plugins: ["@stylistic"],
-  extends: "eslint:recommended",
+  extends: ["eslint:recommended", "plugin:svelte/recommended"],
   overrides: [
     {
       env: {
@@ -14,6 +14,10 @@ module.exports = {
       parserOptions: {
         sourceType: "script",
       },
+    },
+    {
+      files: ["*.svelte"],
+      parser: "svelte-eslint-parser",
     },
   ],
   parserOptions: {
