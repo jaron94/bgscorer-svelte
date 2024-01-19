@@ -39,7 +39,8 @@
     serviceWorker:
       process.env.NODE_ENV === "production"
         ? {
-            path: "/service-worker.js",
+            path: "/bgscorer-svelte/service-worker.js",
+            scope: "/bgscorer-svelte/"
           }
         : {},
   };
