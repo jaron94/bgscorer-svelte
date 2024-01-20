@@ -9,6 +9,7 @@ export class BettingGame {
     this.trumpOrder = ["&spades;", "&hearts;", "&diams;", "&clubs;", ""];
     this.createdAt = Date.now();
     this.lastSavedAt = this.createdAt;
+    this.shortGame = false;
   }
 
   addPlayer(player) {
@@ -97,6 +98,14 @@ export class BettingGame {
 
   getTrumpSuit() {
     return shiftArray(this.trumpOrder, this.round);
+  }
+  
+  isOver() {
+    if (this.shortGame) {
+      return this.round == 8;
+    } else {
+      return this.round == 14;
+    }
   }
 }
 

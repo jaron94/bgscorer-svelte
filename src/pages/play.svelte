@@ -1,6 +1,5 @@
 <script>
   import { Page, Navbar, NavRight, Link, f7 } from "framework7-svelte";
-  import { onDestroy } from "svelte";
   import GameInputs from "../components/game_inputs.svelte";
 
   import { game } from "../js/store.js";
@@ -17,8 +16,26 @@
 
   let dev_game = new BettingGame("dev");
   dev_game.addPlayers(players);
+  dev_game.shortGame = true;
 
-  game.set(dev_game);  
+  game.set(dev_game);
+
+  let game_over = false;
+
+  const stop = game.subscribe((g) => {
+    if (g.isOver()) {
+      f7.dialog.alert("Game Over!", () => {
+        game_over = true;
+      });
+    }
+  });
+
+  $: {
+    if (game_over) {
+      stop();
+      f7.tab.show("#view-score");
+    }
+  }
 </script>
 
 <Page name="Play">
